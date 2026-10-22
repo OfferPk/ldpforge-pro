@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050811" />
+      <stop offset="100%" stop-color="#081021" />
+    </linearGradient>
+    <linearGradient id="cyanPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#101e3f" />
+      <stop offset="100%" stop-color="#081022" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="650" fill="url(#bgGrad)" />
+
+  <text x="500" y="45" fill="#f8fafc" font-family="-apple-system, sans-serif" font-weight="900" font-size="22" text-anchor="middle">MPLS LDP Control Plane &amp; RFC 5443 LDP-IGP Sync Defense</text>
+  <text x="500" y="70" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="13" text-anchor="middle">RFC 5036 Signaling, Penultimate Hop Popping (PHP) &amp; Blackhole Prevention</text>
+
+  <!-- Router 1: Ingress PE (Left) -->
+  <rect x="40" y="140" width="220" height="190" rx="10" fill="url(#nodeGrad)" stroke="#06b6d4" stroke-width="2" />
+  <rect x="55" y="155" width="190" height="26" rx="4" fill="rgba(6, 182, 212, 0.2)" />
+  <text x="150" y="173" fill="#22d3ee" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Ingress PE (10.254.0.1)</text>
+  <text x="55" y="205" fill="#cbd5e1" font-family="monospace" font-size="10">• Action: PUSH Label 100</text>
+  <text x="55" y="225" fill="#cbd5e1" font-family="monospace" font-size="10">• Ingress IP Payload</text>
+  <text x="55" y="245" fill="#34d399" font-family="monospace" font-size="10">• Targeted LDP to Egress</text>
+  <text x="55" y="265" fill="#22d3ee" font-family="monospace" font-size="10">• BFD Fast Detect Active</text>
+  <rect x="55" y="285" width="190" height="30" rx="4" fill="rgba(6, 182, 212, 0.15)" stroke="#06b6d4" />
+  <text x="150" y="305" fill="#22d3ee" font-family="sans-serif" font-weight="bold" font-size="10" text-anchor="middle">✓ LSP Originator</text>
+
+  <!-- Router 2: Transit P-1 (Center Left) -->
+  <rect x="340" y="100" width="280" height="220" rx="10" fill="url(#nodeGrad)" stroke="#a855f7" stroke-width="2" />
+  <rect x="355" y="115" width="250" height="26" rx="4" fill="url(#cyanPurple)" />
+  <text x="480" y="133" fill="#050811" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Transit P-1 (Core LSR)</text>
+  <text x="355" y="165" fill="#cbd5e1" font-family="monospace" font-size="11">LFIB Action: SWAP 100 -> 200</text>
+  <text x="355" y="185" fill="#34d399" font-family="monospace" font-size="10">• RFC 5443 LDP-IGP Sync Active</text>
+  <text x="355" y="205" fill="#22d3ee" font-family="monospace" font-size="10">• Advertises Metric: 65535 during sync</text>
+  <text x="355" y="225" fill="#fbbf24" font-family="monospace" font-size="10">• TCP 646 MD5 Authentication</text>
+  <text x="355" y="245" fill="#c084fc" font-family="monospace" font-size="10">• LDP Session Protection Active</text>
+  <rect x="355" y="265" width="250" height="35" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" />
+  <text x="480" y="287" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">✓ Zero Blackhole Drop Protection</text>
+
+  <!-- Router 3: Egress PE (Right) -->
+  <rect x="710" y="140" width="250" height="190" rx="10" fill="url(#nodeGrad)" stroke="#10b981" stroke-width="2" />
+  <rect x="725" y="155" width="220" height="26" rx="4" fill="rgba(16, 185, 129, 0.2)" />
+  <text x="835" y="173" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Egress PE (10.254.0.2)</text>
+  <text x="725" y="205" fill="#cbd5e1" font-family="monospace" font-size="10">• Advertises: Label 0 (Explicit Null)</text>
+  <text x="725" y="225" fill="#34d399" font-family="monospace" font-size="10">• EXP/QoS Bits Preserved (DiffServ)</text>
+  <text x="725" y="245" fill="#cbd5e1" font-family="monospace" font-size="10">• Final Action: POP Label 0</text>
+  <text x="725" y="265" fill="#22d3ee" font-family="monospace" font-size="10">• Delivers native IP packet</text>
+  <rect x="725" y="285" width="220" height="30" rx="4" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" />
+  <text x="835" y="305" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="10" text-anchor="middle">✓ End-to-End Carrier QoS</text>
+
+  <!-- Bottom Panel: Blackhole Failure Scenario vs RFC 5443 Fix -->
+  <rect x="40" y="380" width="440" height="230" rx="10" fill="url(#nodeGrad)" stroke="#ef4444" stroke-width="2" />
+  <rect x="55" y="395" width="410" height="26" rx="4" fill="rgba(239, 68, 68, 0.2)" />
+  <text x="260" y="413" fill="#f87171" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">WITHOUT LDP-IGP Sync (Fatal Blackhole)</text>
+  <text x="55" y="445" fill="#f87171" font-family="monospace" font-size="10">1. Physical link recovers from fiber cut.</text>
+  <text x="55" y="465" fill="#f87171" font-family="monospace" font-size="10">2. IGP advertises normal metric (10) immediately.</text>
+  <text x="55" y="485" fill="#f87171" font-family="monospace" font-size="10">3. Ingress routers steer MPLS traffic to link.</text>
+  <text x="55" y="505" fill="#cbd5e1" font-family="monospace" font-size="10">4. LDP TCP 646 is still negotiating (3-10 sec).</text>
+  <text x="55" y="525" fill="#f87171" font-family="monospace" font-size="10">5. Transit router has NO outgoing label in LFIB!</text>
+  <rect x="55" y="555" width="410" height="40" rx="6" fill="rgba(239, 68, 68, 0.15)" stroke="#ef4444" />
+  <text x="260" y="579" fill="#f87171" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">✗ 100% Customer VPN / Transit Packets Dropped</text>
+
+  <!-- Bottom Right Panel: With RFC 5443 Sync -->
+  <rect x="520" y="380" width="440" height="230" rx="10" fill="url(#nodeGrad)" stroke="#10b981" stroke-width="2" />
+  <rect x="535" y="395" width="410" height="26" rx="4" fill="rgba(16, 185, 129, 0.2)" />
+  <text x="740" y="413" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">WITH RFC 5443 LDP-IGP Sync (Zero Drops)</text>
+  <text x="535" y="445" fill="#34d399" font-family="monospace" font-size="10">1. Physical link recovers from fiber cut.</text>
+  <text x="535" y="465" fill="#34d399" font-family="monospace" font-size="10">2. IGP advertises MaxMetric (65535) on link.</text>
+  <text x="535" y="485" fill="#34d399" font-family="monospace" font-size="10">3. Traffic remains on alternate LSP without drop.</text>
+  <text x="535" y="505" fill="#cbd5e1" font-family="monospace" font-size="10">4. LDP session enters OPERATIONAL &amp; labels exchanged.</text>
+  <text x="535" y="525" fill="#34d399" font-family="monospace" font-size="10">5. IGP metric lowered to normal (10) safely.</text>
+  <rect x="535" y="555" width="410" height="40" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" />
+  <text x="740" y="579" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">✓ Continuous Forwarding &amp; Zero Traffic Loss</text>
+
+  <!-- Connectors -->
+  <line x1="260" y1="230" x2="340" y2="210" stroke="#06b6d4" stroke-width="2" />
+  <line x1="620" y1="210" x2="710" y2="230" stroke="#10b981" stroke-width="2" />
+</svg>
